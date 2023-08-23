@@ -20,3 +20,40 @@ def bin_a_dec(num):
         exponente=(len(num)-(i+1))
         nro_dec+=int(n)*(2**exponente)
     return nro_dec
+
+class Pila():
+    def __init__(self):
+        self.items = []
+
+    def push(self, elemento):
+        self.items.append(elemento)
+
+    def pop(self):
+        if not self.isEmpty():
+            return self.items.pop()
+
+    def peek(self):
+        if not self.isEmpty():
+            return self.items[-1]
+
+    def isEmpty(self):
+        return len(self.items) == 0
+    
+def ver_pila(cadena):
+    pila = Pila()
+    simbolos_apertura = "([{"
+    simbolos_cierre = ")]}"
+    
+    for simbolo in cadena:
+        if simbolo in simbolos_apertura:
+            pila.push(simbolo)
+        elif simbolo in simbolos_cierre:
+            if pila.isEmpty():
+                return False
+            simbolo_apertura = pila.pop()
+            if (simbolo == ')' and simbolo_apertura != '(') or \
+               (simbolo == ']' and simbolo_apertura != '[') or \
+               (simbolo == '}' and simbolo_apertura != '{'):
+                return False
+    
+    return pila.isEmpty()

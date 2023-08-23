@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from config import Config
 from datetime import datetime
-from hola_mundo.static.applications import a_dict, bin_a_dec
+from hola_mundo.static.applications import *
 import json
 
 def init_app():
@@ -212,6 +212,14 @@ def init_app():
     def convert_binary(num):
         num_dec=bin_a_dec(num)
         return str(num_dec),200
+    #Ejercicio14
+    @app.route('/balance/<string:input>')
+    def balance(input):
+        if ver_pila(input):
+            return jsonify({"balanced": True}), 200
+        else:
+            return jsonify({"balanced": False}), 200
+
     return app
-    
+
     
