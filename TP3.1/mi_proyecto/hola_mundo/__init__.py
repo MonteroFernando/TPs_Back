@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from config import Config
 from datetime import datetime
-from hola_mundo.static.applications import a_dict
+from hola_mundo.static.applications import a_dict, bin_a_dec
 import json
 
 def init_app():
@@ -19,7 +19,9 @@ def init_app():
     #Ejercicio3
     @app.route('/about')
     def about():
-        return (jsonify(Config.description),200)
+        response=jsonify(Config.description)
+        response.headers['Content-Type']='application/json; charset=utf-8'
+        return response,200
     #Ejercicio4
     @app.route('/suma/<int:nro1>/<int:nro2>')
     def suma(nro1,nro2):
@@ -182,5 +184,34 @@ def init_app():
                     list_encode.append('+')
         keyword_encode=''.join(list_encode)
         return(jsonify({'morse':keyword_encode}),200)
+    #Ejercicio12
+    @app.route('/decode/<string:morse_code>')
+    def decode(morse_code):
+        #Tomo el archivo .json como diccionario
+        morse=a_dict('morse_code.json')
+        #Creo una lista con los códigos separados
+        codigo=morse_code.split("+")
+        #de forma pythonica, invirtiendo el diccionario para tomar los valores como key
+        morse_invert={val: key for key,val in morse.items()}
+        #voy armando un una lista la palabra decodificada
+        dec_list=[]
+        for i,car in enumerate(codigo):
+            if i==0:
+                dec_list.append(morse_invert[car])
+            elif i==len(codigo)-1:
+                dec_list.append(morse_invert[car].lower())
+                dec_list.append(".")
+
+            else:
+                dec_list.append(morse_invert[car].lower())
+
+        decodificado="".join(dec_list)
+        return (decodificado,200)
+    #Ejercicio13
+    @app.route('/convert/binary/<string:num>')
+    def convert_binary(num):
+        num_dec=bin_a_dec(num)
+        return str(num_dec),200
     return app
+    
     
