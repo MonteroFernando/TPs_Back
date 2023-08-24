@@ -10,7 +10,7 @@ class DatabaseConnector:
                 user='root',
                 port='3306',
                 password='Nano1984*',
-                database='my_database'
+                database='sales'
             )
         return cls._connection
     @classmethod
