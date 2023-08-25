@@ -1,4 +1,4 @@
-from app.models.customers import Customer
+from app.models.customer_model import Customer
 
 customers=Customer().get_customers()
 """print(len(customers))
