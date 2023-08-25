@@ -1,3 +1,3 @@
 
-class CustomersController():
+class CustomerController():
     pass
