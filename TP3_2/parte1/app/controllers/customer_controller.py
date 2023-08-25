@@ -3,7 +3,8 @@ from flask import Flask
 class CustomerController():
     @classmethod
     def create_customer(self):
-        customer=Customer(
+        pass
+        """customer=Customer(
             first_name=request.args.get('first_name',''),
             last_name=request.args.get('last_name',''),
             phone=request.args.get('phone',''),
@@ -14,7 +15,8 @@ class CustomerController():
             zip_code=request.args.get('zip_code','')
             )
         Customer().create_customer(customer)
-        return {'message':'Cliente creado con exito'},200
+        return {'message':'Cliente creado con exito'},200"""
+    @classmethod
     def get_cusomer(customer_id):
         response=Customer().get_customer(customer_id)
         if response is not None:
