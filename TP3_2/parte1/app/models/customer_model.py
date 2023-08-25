@@ -32,10 +32,10 @@ class Customer():
                 last_name=result[2],
                 phone=result[3],
                 email=result[4],
-                street=[5],
-                city=[6],
-                satate=[7],
-                zip_code=[8]
+                street=result[5],
+                city=result[6],
+                satate=result[7],
+                zip_code=result[8]
             )
         else:
             return None
