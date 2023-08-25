@@ -59,3 +59,20 @@ class Customer():
         else:
             return None
         return customers
+    @classmethod
+    def update_customer(self,customer_id,**kwargs):
+        """Metodo que modifica del customer pasado como parametro, los datos que se espcifican en el keyword 
+        argument, modificando solo los valores que se ingresan"""
+        #forma pythonica que toma cada una de las key de los argumentos haciendo key=%s, de esta manera
+        #los que no se pasan como parametros, no se modifican. 
+        set_values=", ".join([f"{key}=%s" for key in kwargs.keys()])
+        #creacin del query agregando set_value como string que antes se unio con .join
+        query=f"UPDATE customers SET {set_values} WHERE customer_id = %s;"
+        #creacion de los parametros, tomando los valores del keyword arguments y agregando el id al final
+        params=list(kwargs.values()) + [customer_id]
+        DatabaseConnector.execute_query(query,params)
+
+    
+    
+    
+    
