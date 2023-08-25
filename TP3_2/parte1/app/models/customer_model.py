@@ -20,7 +20,7 @@ class Customer():
                 customer.city, customer.state, customer.zip_code)
         DatabaseConnector.execute_query(query,params)
     @classmethod
-    def get_customer(self,customer_id):
+    def get_customer(seld,customer_id):
         query="""SELECT * FROM customers WHERE customer_id=%s;"""
         params=(customer_id,)
         result=DatabaseConnector.fech_one(query,params)
