@@ -64,16 +64,26 @@ class Customer():
     def update_customer(self,customer_id,kwargs):
         cliente=Customer.get_customer(customer_id)
         if cliente is not None:
-            
+
             #Creacion de un string usando las key de los parametros recibidos con el formato key1=%s, key2=%s,..
             keys=", ".join("{}=%s".format(key) for key in kwargs.keys())
 
             params=tuple(kwargs.values())+(customer_id,)
-            qwery=f"UPDATE customers SET {keys} WHERE customers.customer_id=%s"
-            DatabaseConnector.execute_query(qwery,params)
+            query=f"UPDATE customers SET {keys} WHERE customers.customer_id=%s"
+            DatabaseConnector.execute_query(query,params)
             return "Cliente actualizado"
         else:
             return None
+    @classmethod
+    def delete_customer(self,customer_id):
+        query= "DELETE FROM customers WHERE customer_id = %s"
+        params=(customer_id,)
+        cliente=self.get_customer(customer_id)
+        if cliente is not None:
+            DatabaseConnector.execute_query(query,params)
+            return None
+        else:
+            return 'No existe el cliente solicitado'
         
 
 
