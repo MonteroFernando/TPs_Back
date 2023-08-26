@@ -1,6 +1,6 @@
 from app.models.customer_model import Customer
 
-customers=Customer().get_customers()
+#customers=Customer().get_customers()
 """print(len(customers))
 for customer in customers:
     dic={'customer_id':customer.customer_id,
@@ -9,6 +9,6 @@ for customer in customers:
     
     print(dic)"""
 
-Customer().update_customer(1445,first_name="Ester", city="San Lorenzo")
+#Customer().update_customer(1446,phone="(387)6842177")
 
 

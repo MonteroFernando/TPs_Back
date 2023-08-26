@@ -20,7 +20,7 @@ class CustomerController():
                 zip_code=request.args.get('zip_code','')
                 )
             Customer().create_customer(customer)
-            return {},201
+            return { },201
     @classmethod
     def get_customer(self,customer_id):
         response=Customer().get_customer(customer_id)
@@ -58,6 +58,28 @@ class CustomerController():
         else:
             return {'customers':customers,
                     'total':0},200
+    @classmethod
+    def update_customer(self,customer_id):
+        kwargs={}
+        kwargs['fist_name']=request.args.get('fist_name','')
+        kwargs['last_name']=request.args.get('last_name','')
+        kwargs['phone']=request.args.get('phone','')
+        kwargs['email']=request.args.get('email','')
+        kwargs['street']=request.args.get('street','')
+        kwargs['city']=request.args.get('city','')
+        kwargs['state']=request.args.get('state','')
+        kwargs['last_name']=request.args.get('last_name','')
+
+        #Filtro los valores del diccionario dejando solo los que tengan datos
+        kwargs={key:val for key,val in kwargs.items() if val !=""}
+        
+        estado=Customer().update_customer(customer_id,kwargs)
+        if estado is not None:
+            return{ },200
+        else:
+            return {'message':'No se encontro el cliente'},404
+        
+
            
         
 

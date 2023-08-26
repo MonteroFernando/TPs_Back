@@ -50,6 +50,7 @@ class Customer():
                 customer_id=customer[0],
                 first_name=customer[1],
                 last_name=customer[2],
+                phone=customer[3],
                 email=customer[4],
                 street=customer[5],
                 city=customer[6],
@@ -59,3 +60,21 @@ class Customer():
         else:
             return None
         return customers
+    @classmethod
+    def update_customer(self,customer_id,kwargs):
+        cliente=Customer.get_customer(customer_id)
+        if cliente is not None:
+            
+            #Creacion de un string usando las key de los parametros recibidos con el formato key1=%s, key2=%s,..
+            keys=", ".join("{}=%s".format(key) for key in kwargs.keys())
+
+            params=tuple(kwargs.values())+(customer_id,)
+            qwery=f"UPDATE customers SET {keys} WHERE customers.customer_id=%s"
+            DatabaseConnector.execute_query(qwery,params)
+            return "Cliente actualizado"
+        else:
+            return None
+        
+
+
+
