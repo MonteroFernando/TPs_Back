@@ -1,12 +1,12 @@
 from ..models.customer_model import Customer
-from flask import Flask
+from flask import request
 class CustomerController():
     @classmethod
     def create_customer(self):
         first_name=request.args.get('first_name','')
         last_name=request.args.get('last_name','')
-        email=request.args.get('phone','')
-        if not first_name or not last_name or not email:
+        email=request.args.get('email','')
+        if first_name=='' or last_name=='' or email=='':
             return {'error':'Faltan algunos de los campos obligatorios'},400
         else:
             customer=Customer(
