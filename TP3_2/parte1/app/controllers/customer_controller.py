@@ -16,7 +16,7 @@ class CustomerController():
                 email=request.args.get('email',''),
                 street=request.args.get('street',''),
                 city=request.args.get('city',''),
-                satate=request.args.get('state',''),
+                state=request.args.get('state',''),
                 zip_code=request.args.get('zip_code','')
                 )
             Customer().create_customer(customer)
@@ -38,7 +38,7 @@ class CustomerController():
         else:
             return {'message':'No se encontro el cliente consultado'},404
     @classmethod
-    def get_customers(slef):
+    def get_customers(self):
         response=Customer().get_customers()
         customers=[]
         if response is not None:

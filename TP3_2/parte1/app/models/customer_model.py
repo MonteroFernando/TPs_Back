@@ -2,7 +2,7 @@ from ..database import DatabaseConnector
 
 class Customer():
     def __init__(self,customer_id=None,first_name=None,last_name=None,phone=None,email=None,street=None,
-                 city=None,satate=None,zip_code=None):
+                 city=None,state=None,zip_code=None):
         self.customer_id=customer_id
         self.first_name=first_name
         self.last_name=last_name
@@ -10,7 +10,7 @@ class Customer():
         self.email=email
         self.street=street
         self.city=city
-        self.state=satate
+        self.state=state
         self.zip_code=zip_code
     @classmethod
     def create_customer(self,customer):
@@ -34,7 +34,7 @@ class Customer():
                 email=result[4],
                 street=result[5],
                 city=result[6],
-                satate=result[7],
+                state=result[7],
                 zip_code=result[8]
             )
         else:
@@ -54,7 +54,7 @@ class Customer():
                 email=customer[4],
                 street=customer[5],
                 city=customer[6],
-                satate=customer[7],
+                state=customer[7],
                 zip_code=customer[8]
             ))
         else:
