@@ -72,13 +72,21 @@ class CustomerController():
 
         #Filtro los valores del diccionario dejando solo los que tengan datos
         kwargs={key:val for key,val in kwargs.items() if val !=""}
-        
+
         estado=Customer().update_customer(customer_id,kwargs)
         if estado is not None:
             return{ },200
         else:
             return {'message':'No se encontro el cliente'},404
+    @classmethod
+    def delete_customer(self,customer_id):
         
+        response=Customer().delete_customer(customer_id)
+        if response is None:
+            return { },200
+        else:
+            return {'error':response},404
+    
 
            
         

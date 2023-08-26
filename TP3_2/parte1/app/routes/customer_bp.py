@@ -7,5 +7,6 @@ customer_bp.route('/customer', methods=['POST'])(CustomerController.create_custo
 customer_bp.route('/customers/<int:customer_id>', methods=['GET'])(CustomerController.get_customer)
 customer_bp.route('/customers', methods=['GET'])(CustomerController.get_customers)
 customer_bp.route('/customers/<int:customer_id>', methods=['PUT'])(CustomerController.update_customer)
+customer_bp.route('/customers/<int:customer_id>',methods=['DELETE'])(CustomerController.delete_customer)
 
 
