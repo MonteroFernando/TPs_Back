@@ -3,6 +3,7 @@ from ..database import DatabaseConnector
 class Customer():
     def __init__(self,customer_id=None,first_name=None,last_name=None,phone=None,email=None,street=None,
                  city=None,state=None,zip_code=None):
+        """Metodo constructor"""
         self.customer_id=customer_id
         self.first_name=first_name
         self.last_name=last_name
@@ -14,17 +15,21 @@ class Customer():
         self.zip_code=zip_code
     @classmethod
     def create_customer(self,customer):
+        """Metodo de Clase que ingresa los datos de un cliente"""
         query="""INSERT INTO sales.customers(first_name,last_name,phone,email,street,city,state,zip_code)
                 VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"""
         params=(customer.first_name, customer.last_name, customer.phone, customer.email, customer.street,
                 customer.city, customer.state, customer.zip_code)
         DatabaseConnector.execute_query(query,params)
+        DatabaseConnector.close_connection()
     @classmethod
     def get_customer(seld,customer_id):
+        """Metodo de clase que retorna los datos del id customer recibido como parametro,
+        devulelve un objeto customer"""
         query="""SELECT * FROM customers WHERE customer_id=%s;"""
         params=(customer_id,)
         result=DatabaseConnector.fech_one(query,params)
-
+        DatabaseConnector.close_connection()
         if result is not None:
             return Customer(
                 customer_id=customer_id,
@@ -41,8 +46,10 @@ class Customer():
             return None
     @classmethod
     def get_customers(self):
+        """Metodo que retorna una lista de customers"""
         query="""SELECT * FROM customers"""
         result=DatabaseConnector.fechall(query)
+        DatabaseConnector.close_connection()
         if result is not None:
             customers=[]
             for customer in result:
@@ -62,25 +69,29 @@ class Customer():
         return customers
     @classmethod
     def update_customer(self,customer_id,kwargs):
-        cliente=Customer.get_customer(customer_id)
+        """Parametro que actulaiza el customer del id recibido como parametro, con las actualizaciones
+        recibidas de kwargs como un diccionario, con las key del nombre de la columna a modificar"""
+        cliente=self.get_customer(customer_id)
         if cliente is not None:
-
             #Creacion de un string usando las key de los parametros recibidos con el formato key1=%s, key2=%s,..
             keys=", ".join("{}=%s".format(key) for key in kwargs.keys())
-
             params=tuple(kwargs.values())+(customer_id,)
             query=f"UPDATE customers SET {keys} WHERE customers.customer_id=%s"
             DatabaseConnector.execute_query(query,params)
+            DatabaseConnector.close_connection()
             return "Cliente actualizado"
         else:
+            
             return None
     @classmethod
     def delete_customer(self,customer_id):
+        """metodo que elimina el customer con el id pasado como parametro"""
         query= "DELETE FROM customers WHERE customer_id = %s"
         params=(customer_id,)
         cliente=self.get_customer(customer_id)
         if cliente is not None:
             DatabaseConnector.execute_query(query,params)
+            DatabaseConnector.close_connection()
             return None
         else:
             return 'No existe el cliente solicitado'
