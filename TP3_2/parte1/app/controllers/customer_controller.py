@@ -16,7 +16,7 @@ class CustomerController():
                 email=request.args.get('email',''),
                 street=request.args.get('street',''),
                 city=request.args.get('city',''),
-                satate=request.args.get('state',''),
+                state=request.args.get('state',''),
                 zip_code=request.args.get('zip_code','')
                 )
             Customer().create_customer(customer)
@@ -38,7 +38,7 @@ class CustomerController():
         else:
             return {'message':'No se encontro el cliente consultado'},404
     @classmethod
-    def get_customers(slef):
+    def get_customers(self):
         response=Customer().get_customers()
         customers=[]
         if response is not None:
@@ -61,14 +61,14 @@ class CustomerController():
     @classmethod
     def update_customer(self,customer_id):
         kwargs={}
-        kwargs['fist_name']=request.args.get('fist_name','')
+        kwargs['first_name']=request.args.get('first_name','')
         kwargs['last_name']=request.args.get('last_name','')
         kwargs['phone']=request.args.get('phone','')
         kwargs['email']=request.args.get('email','')
         kwargs['street']=request.args.get('street','')
         kwargs['city']=request.args.get('city','')
         kwargs['state']=request.args.get('state','')
-        kwargs['last_name']=request.args.get('last_name','')
+        kwargs['zip_code']=request.args.get('zip_code','')
 
         #Filtro los valores del diccionario dejando solo los que tengan datos
         kwargs={key:val for key,val in kwargs.items() if val !=""}
