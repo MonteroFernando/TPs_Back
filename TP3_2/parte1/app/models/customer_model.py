@@ -45,10 +45,20 @@ class Customer():
         else:
             return None
     @classmethod
-    def get_customers(self):
+    def get_customers(self,kwargs):
         """Metodo que retorna una lista de customers"""
-        query="""SELECT * FROM customers"""
-        result=DatabaseConnector.fechall(query)
+        if kwargs == {}:
+            query="""SELECT * FROM customers"""
+            result=DatabaseConnector.fechall(query)
+        else:
+            #Creacion de un string usando las key de los parametros recibidos con el formato key1=%s, key2=%s,..
+            if len(kwargs) > 1:
+                keys=" AND ".join("{}=%s".format(key) for key in kwargs.keys())
+            else:
+                keys=", ".join("{}=%s".format(key) for key in kwargs.keys())
+            params=tuple(kwargs.values())
+            query=f"SELECT * FROM customers WHERE {keys}"""
+            result=DatabaseConnector.fechall(query,params)
         DatabaseConnector.close_connection()
         if result is not None:
             customers=[]
