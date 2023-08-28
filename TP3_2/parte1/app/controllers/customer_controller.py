@@ -39,7 +39,9 @@ class CustomerController():
             return {'message':'No se encontro el cliente consultado'},404
     @classmethod
     def get_customers(self):
-        response=Customer().get_customers()
+        kwargs=self.args_to_dict()
+
+        response=Customer().get_customers(kwargs)
         customers=[]
         if response is not None:
             for customer in response:
@@ -60,19 +62,7 @@ class CustomerController():
                     'total':0},200
     @classmethod
     def update_customer(self,customer_id):
-        kwargs={}
-        kwargs['first_name']=request.args.get('first_name','')
-        kwargs['last_name']=request.args.get('last_name','')
-        kwargs['phone']=request.args.get('phone','')
-        kwargs['email']=request.args.get('email','')
-        kwargs['street']=request.args.get('street','')
-        kwargs['city']=request.args.get('city','')
-        kwargs['state']=request.args.get('state','')
-        kwargs['zip_code']=request.args.get('zip_code','')
-
-        #Filtro los valores del diccionario dejando solo los que tengan datos
-        kwargs={key:val for key,val in kwargs.items() if val !=""}
-
+        kwargs=self.args_to_dict()
         estado=Customer().update_customer(customer_id,kwargs)
         if estado is not None:
             return{ },200
@@ -86,6 +76,20 @@ class CustomerController():
             return { },200
         else:
             return {'error':response},404
+    @classmethod
+    def args_to_dict(self):
+        kwargs={}
+        kwargs['first_name']=request.args.get('first_name','')
+        kwargs['last_name']=request.args.get('last_name','')
+        kwargs['phone']=request.args.get('phone','')
+        kwargs['email']=request.args.get('email','')
+        kwargs['street']=request.args.get('street','')
+        kwargs['city']=request.args.get('city','')
+        kwargs['state']=request.args.get('state','')
+        kwargs['zip_code']=request.args.get('zip_code','')
+        #Filtro los valores del diccionario dejando solo los que tengan datos
+        kwargs={key:val for key,val in kwargs.items() if val !=""}
+        return kwargs
     
 
            
