@@ -17,7 +17,6 @@ class DatabaseConnector:
     def execute_query(cls,query,params=None):
         cursor=cls.get_connection().cursor()
         cursor.execute(query,params)
-        cursor.commit()
         cls._connection.commit()
         return cursor
     @classmethod
@@ -28,7 +27,7 @@ class DatabaseConnector:
     @classmethod
     def fetch_all(cls,query,params):
         cursor=cls.get_connection().cursor()
-        cursor.execute(query)
+        cursor.execute(query,params)
         return cursor.fetchall()
     @classmethod
     def close_connection(cls):
