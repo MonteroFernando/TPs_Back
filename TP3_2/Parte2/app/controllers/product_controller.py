@@ -11,9 +11,11 @@ class ProductController:
     def get_products(self):
         kwargs=self.args_to_dict()
         products=Product().get_products(kwargs)
-        if len(products) >1:
+        if products is not None:
             list_products=[self.class_to_dict(prod) for prod in products]
             return {'products':list_products,'total':len(list_products)},200
+        else:
+            return {'error':'No se encontraron datos'},404
     @classmethod
     def create_product(self):
         product_name=request.args.get('product_name','')
@@ -56,7 +58,7 @@ class ProductController:
             'products.brand_id':request.args.get('brand_id',''),
             'products.category_id':request.args.get('category_id',''),
             #agrego estos datos solo para el caso de update
-            'products.product_name':request.args.get('product_name'),
+            'products.product_name':request.args.get('product_name',''),
             'products.model_year':request.args.get('model_year',''),
             'products.list_price':request.args.get('list_price','')
 
