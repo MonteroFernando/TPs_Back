@@ -35,3 +35,4 @@ class DatabaseConnector:
         if cls._connection is not None:
             cls._connection.close()
             cls._connection=None
+        return cls._connection
