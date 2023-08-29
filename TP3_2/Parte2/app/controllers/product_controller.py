@@ -5,8 +5,11 @@ class ProductController:
     @classmethod
     def get_product(self,product_id):
         product=Product().get_product(product_id)
-        response=self.class_to_dict(product)
-        return response,200
+        if product is not None:
+            response=self.class_to_dict(product)
+            return response,200
+        else:
+            return {'error':'No se encontraron datos'},404
     @classmethod
     def get_products(self):
         kwargs=self.args_to_dict()
@@ -23,24 +26,37 @@ class ProductController:
         category_id=request.args.get('category_id','')
         model_year=request.args.get('model_year','')
         list_price=request.args.get('list_price','')
-        product=Product(
+        
+        if product_name!='':
+            product=Product(
             product_name=product_name,
             brand_id=brand_id,
             category_id=category_id,
             model_year=model_year,
             list_price=list_price
             )
-        Product().create_product(product)
-        return { },201
+            Product().create_product(product)
+            return { },201
+        else:
+            return {'error':'algunos datos no estan cargados para realizar el ingreso'}, 400
     @classmethod
     def update_product(self,product_id):
-        kwargs=self.args_to_dict()
-        Product.update_product(product_id,kwargs)
-        return { }, 200
+        product=Product().get_product(product_id)
+
+        if product is not None:
+            kwargs=self.args_to_dict()
+            Product.update_product(product_id,kwargs)
+            return { }, 200
+        else:
+            return {'error':'No se encontro el producto a modificar'}, 404
     @classmethod
     def delete_product(self,product_id):
-        Product().delete_product(product_id)
-        return { },200
+        product=Product().get_product(product_id)
+        if product is not None:
+            Product().delete_product(product_id)
+            return { },200
+        else:
+            return {'error':'No se entontro el producto a eliminar'}, 404
 
     @staticmethod
     def class_to_dict(product):
