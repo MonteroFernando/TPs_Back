@@ -46,7 +46,7 @@ class Product:
         params=tuple(kwargs.values())
         response=DatabaseConnector.fetch_all(query,params)
         DatabaseConnector.close_connection()
-        if response is not None:
+        if response != []:
             products=[]
             for prod in response:
                 products.append(Product(
@@ -59,7 +59,9 @@ class Product:
                     brand_name=prod[7],
                     category_name=prod[9]
                     ))
-        return products
+            return products
+        else:
+            return None
     @classmethod
     def create_product(self,product):
         query="""INSERT INTO production.products (product_name, brand_id, category_id, model_year, list_price)
