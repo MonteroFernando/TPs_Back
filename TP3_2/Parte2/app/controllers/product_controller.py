@@ -60,7 +60,7 @@ class ProductController:
 
     @staticmethod
     def class_to_dict(product):
-        """Metodo que prepara en diccionario los datos devueltos en la clase Product"""
+        """Metodo devuelve un diccionario de los datos del objeto product pasado por parametro"""
         response={'brands':{'brand_id':product.brand_id,'brand_name':product.brand_name},
                   'category':{'category_id':product.category_id,'category_name':product.category_name},
                   'list_price':product.list_price,
@@ -70,6 +70,8 @@ class ProductController:
         return response
     @staticmethod 
     def args_to_dict():
+        """Metodo que toma los valores de los parametros de una solicitud HTTP, 
+        retorna un diccionario con los valores que sean distintos de ''"""
         kwargs={
             'products.brand_id':request.args.get('brand_id',''),
             'products.category_id':request.args.get('category_id',''),

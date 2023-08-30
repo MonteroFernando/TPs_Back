@@ -13,6 +13,8 @@ class Product:
         self.category_name=category_name
     @classmethod    
     def get_product(self,product_id):
+        """Metodo que recupera de la base de datos el producto con el id ingresado, retorna una
+        un objeto del producto, si no encuentra datos retorna None"""
         query="""SELECT * FROM products
                  INNER JOIN brands ON products.brand_id = brands.brand_id 
                  INNER JOIN categories ON products.category_id=categories.category_id
@@ -33,6 +35,9 @@ class Product:
             )
     @classmethod
     def get_products(self,kwargs):
+        """Metodo que recupera de la base de datos todos los productos, filtrados por el parametro
+        kwargs, que es un diccionario con los key del nombre de la columna a consultar.
+        retorna una lista del objeto product. En el caso de no encontrar datos retorna None"""
         if kwargs != {}:
             key=' AND '.join("{}=%s".format(key) for key in kwargs.keys())
             query=f"""SELECT * FROM products 
@@ -64,6 +69,7 @@ class Product:
             return None
     @classmethod
     def create_product(self,product):
+        """Metodo que ingresa un nuevo productos con los parametros recibidos"""
         query="""INSERT INTO production.products (product_name, brand_id, category_id, model_year, list_price)
                 VALUES(%s, %s, %s,%s,%s)"""
         params=(product.product_name, product.brand_id, product.category_id, product.model_year, product.list_price)
@@ -72,6 +78,9 @@ class Product:
         return "Se cargo correctamente el Producto"
     @classmethod
     def update_product(self,product_id,kwargs):
+        """Metodo que actualiza el producto con el id recibido por parametro, actualizando los datos
+        recibidos con kwargs, el cual es un diccionario cuyas clave son los campos a actualizar y value 
+        los nuevos valores, retoruna 'Producto actualizado' al finalizar"""
         key=", ".join("{}=%s".format(key) for key in kwargs.keys())
         params=tuple((kwargs.values()))+(product_id,)
         query=f"UPDATE products SET {key} WHERE products.product_id=%s"
@@ -80,10 +89,10 @@ class Product:
         return 'Producto actualizado'
     @classmethod
     def delete_product(self,product_id):
+        """Metodo que elimina el prodicto con el id pasado por parametro,
+        retorna 'Se elimino el producto con éxito' añ finalizar"""
         query="""DELETE FROM products WHERE products.product_id=%s"""
         params=(product_id,)
         DatabaseConnector.execute_query(query,params)
-        return 'Se elemino el producto con éxito'
+        return 'Se elimino el producto con éxito'
                     
-
-
