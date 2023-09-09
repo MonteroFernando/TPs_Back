@@ -18,3 +18,10 @@ class CustomException(Exception):
         })
         response.status_code = self.status_code
         return response
+    
+class FilmNotFound(CustomException):
+    def __init__(self,film_id):
+        super().__init__(404,'FilmNotFound',f'Film with id {film_id} not found')
+
+
+        

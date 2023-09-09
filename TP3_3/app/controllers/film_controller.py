@@ -1,4 +1,5 @@
 from ..models.film_model import Film
+from ..models.exceptions import FilmNotFound
 
 from flask import request
 
@@ -14,6 +15,8 @@ class FilmController:
         result = Film.get(film)
         if result is not None:
             return result.serialize(), 200
+        else:
+            raise FilmNotFound(film_id)
         
     @classmethod
     def get_all(cls):
