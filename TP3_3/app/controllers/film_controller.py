@@ -1,5 +1,5 @@
 from ..models.film_model import Film
-from ..models.exceptions import FilmNotFound
+from ..models.exceptions import FilmNotFound, InvalidDataError
 
 from flask import request
 
@@ -32,13 +32,39 @@ class FilmController:
         """Create a new film"""
         data = request.json
         # TODO: Validate data
+        if len(data.get('title'))<3:
+            raise InvalidDataError('title')
+        
+        if not isinstance(data.get('language_id'), int):
+            raise InvalidDataError('language_id')
+        
+        if not isinstance(data.get('rental_duration'), int):
+            raise InvalidDataError('rental_duration')
+        
         if data.get('rental_rate') is not None:
             if isinstance(data.get('rental_rate'), int):
                 data['rental_rate'] = Decimal(data.get('rental_rate'))/100
+            else:
+                raise InvalidDataError('rental_rate')
         
         if data.get('replacement_cost') is not None:
             if isinstance(data.get('replacement_cost'), int):
                 data['replacement_cost'] = Decimal(data.get('replacement_cost'))/100
+            else:
+                raise InvalidDataError('replacement_cost')
+        
+        if not isinstance(data.get('special_features'),list):
+            raise InvalidDataError('special_features')
+        else:
+            primary_set={'Trailers','Commentaries', 'Deleted Scenes', 'Behind the Scenes'}
+            secundary_set=set(data.get('special_features'))
+            #compruebo con funcion all() si todos los elmentos de special_feature son str
+            if not all(isinstance(feature,str) for feature in secundary_set):
+                raise InvalidDataError('special_features')
+            #compruebo que no haya otro elemento no permitido en special_features
+            if not secundary_set.issubset(primary_set):
+                raise InvalidDataError('special_features')
+
 
         film = Film(**data)
         Film.create(film)
@@ -49,27 +75,59 @@ class FilmController:
         """Update a film"""
         data = request.json
         # TODO: Validate data
+        if len(data.get('title'))<3:
+            raise InvalidDataError('title')
+        
+        if not isinstance(data.get('language_id'), int):
+            raise InvalidDataError('language_id')
+        
+        if not isinstance(data.get('rental_duration'), int):
+            raise InvalidDataError('rental_duration')
+        
         if data.get('rental_rate') is not None:
             if isinstance(data.get('rental_rate'), int):
                 data['rental_rate'] = Decimal(data.get('rental_rate'))/100
+            else:
+                raise InvalidDataError('rental_rate')
         
         if data.get('replacement_cost') is not None:
             if isinstance(data.get('replacement_cost'), int):
                 data['replacement_cost'] = Decimal(data.get('replacement_cost'))/100
+            else:
+                raise InvalidDataError('replacement_cost')
+        
+        if not isinstance(data.get('special_features'),list):
+            raise InvalidDataError('special_features')
+        else:
+            primary_set={'Trailers','Commentaries', 'Deleted Scenes', 'Behind the Scenes'}
+            secundary_set=set(data.get('special_features'))
+            #compruebo con funcion all() si todos los elmentos de special_feature son str
+            if not all(isinstance(feature,str) for feature in secundary_set):
+                raise InvalidDataError('special_features')
+            #compruebo que no haya otro elemento no permitido en special_features
+            if not secundary_set.issubset(primary_set):
+                raise InvalidDataError('special_features')
+        
         
         data['film_id'] = film_id
 
         film = Film(**data)
 
         # TODO: Validate film exists
-        Film.update(film)
-        return {'message': 'Film updated successfully'}, 200
-    
+        if Film.exsist(film):
+            Film.update(film)
+            return {'message': 'Film updated successfully'}, 200
+        else:
+            raise FilmNotFound(film_id)
+        
     @classmethod
     def delete(cls, film_id):
         """Delete a film"""
         film = Film(film_id=film_id)
 
         # TODO: Validate film exists
-        Film.delete(film)
-        return {'message': 'Film deleted successfully'}, 204
+        if Film.exsist(film):
+            Film.delete(film)
+            return {'message': 'Film deleted successfully'}, 204
+        else:
+            raise FilmNotFound(film_id)
