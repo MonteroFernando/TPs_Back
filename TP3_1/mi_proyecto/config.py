@@ -11,7 +11,7 @@ class Config:
                 'description':'Aplicación para practicar routing',
                 'developers':[
                              {'nombre':'Mauricio',
-                              'apellido':'Navarri'},
+                              'apellido':'Navarro'},
                              {'nombre':'Lorena',
                               'apellido':'Rodríguez'},
                              {'nombre':'Fernando',
