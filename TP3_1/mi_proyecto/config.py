@@ -5,18 +5,18 @@ class Config:
     TEMPLATE_FOLDER=""
     STATIC_FOLDER="./hola_mundo/static"
 
-    app_name='Hola_Mundo by 19'
-    description={
+    APP_NAME='Hola_Mundo creado por Grupo_15'
+    DESCRIPTION={
                 'app_name':'TP3.1 Routing App',
-                'description':'Aplicación para practivar routing',
+                'description':'Aplicación para practicar routing',
                 'developers':[
+                             {'nombre':'Mauricio',
+                              'apellido':'Navarri'},
+                             {'nombre':'Lorena',
+                              'apellido':'Rodríguez'},
                              {'nombre':'Fernando',
-                              'apellido':'Montero'},
-                             {'nombre':'Ignacio',
-                              'apellido':'Montero'},
-                             {'nombre':'Santiago',
-                              'apellido':'Fernandez'}
+                              'apellido':'Montero'}
                             ],
-                'version':'1.0.0'
+                'version':'1.0.1'
                 }
     

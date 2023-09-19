@@ -11,22 +11,22 @@ def init_app():
     #Ejercicio1
     @app.route('/')
     def hola_mundo():
-        return ("Bienvenidx!",200)
+        return ({"Mensaje":"Bienvenidx!"},200)
     #Ejercicio2
     @app.route('/info')
     def info():
-        return (f'Bienvenidx a {Config.APP_NAME}',200)
+        return ({"Mensaje":f'Bienvenidx a {Config.APP_NAME}'},200)
     #Ejercicio3
     @app.route('/about')
     def about():
-        response=jsonify(Config.description)
+        response=jsonify(Config.DESCRIPTION)
         response.headers['Content-Type']='application/json; charset=utf-8'
         return response,200
     #Ejercicio4
     @app.route('/suma/<int:nro1>/<int:nro2>')
     def suma(nro1,nro2):
-        resultado=str(nro1 + nro2)
-        return (resultado,200)
+        resultado=nro1 + nro2
+        return (jsonify({"resultado":resultado}),200)
     #Ejercicio5
     @app.route('/age/<string:dob>')
     def age(dob):
@@ -49,7 +49,7 @@ def init_app():
             if fech_act.day <= fech_nac.day:
                 edad+=1
         
-        return (str(edad),200)
+        return (jsonify({"edad":edad}),200)
     #Ejercicio6
     @app.route('/<string:operation>/<int:nro1>/<int:nro2>')
     def op(operation,nro1,nro2):
@@ -66,7 +66,7 @@ def init_app():
                 resultado=nro1/nro2
         else:
             return (jsonify({'error':'No existe ruta definida para este endpoint'}),400)
-        return (str(resultado),200)
+        return (jsonify({"resultado":resultado}),200)
     #Ejercicio6 (con fucniones lambda)
     """Otra manera de realizar el punto 6 es con funciones anonimas,
         queria dejar las dos opciones del ejercicio 6 la llamare "6v2" para diferenciarla de la primera version"""
@@ -82,7 +82,7 @@ def init_app():
             resultado=operations[operation](nro1,nro2)
         else:
             return (jsonify({'error':'No existe ruta definida para este endpoint'}),400)
-        return (str(resultado),200)
+        return (jsonify({"resultado":resultado}),200)
     #Ejercicio7
     @app.route('/operate')
     def operate():
@@ -99,7 +99,7 @@ def init_app():
             resultado=operations[operation](nro1,nro2)
         else:
             return (jsonify({'error':'No existe ruta definida para este endpoint'}),400)
-        return (str(resultado),200)
+        return (jsonify({"resultado":resultado}),200)
     #Ejercicio8
     @app.route('/title/<string:word>')
     def titulo(word):
@@ -206,12 +206,12 @@ def init_app():
                 dec_list.append(morse_invert[car].lower())
 
         decodificado="".join(dec_list)
-        return (decodificado,200)
+        return (jsonify({"decodificado":decodificado}),200)
     #Ejercicio13
     @app.route('/convert/binary/<string:num>')
     def convert_binary(num):
         num_dec=bin_a_dec(num)
-        return str(num_dec),200
+        return (jsonify({"decimal":num_dec}),200)
     #Ejercicio14
     @app.route('/balance/<string:input>')
     def balance(input):
